@@ -1,0 +1,35 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                       
+     9 00000000 05                          a db 5
+    10 00000001 03                          b db 3
+    11 00000002 08                          c db 8
+    12 00000003 02                          d db 2
+    13 00000004 00                          result db 0  ; Variable to store the result
+    14                                      
+    15                                  section .text   ; Code section
+    16                                  start:
+    17                                  
+    18                                      ; Load values of a, b, c, and d into registers
+    19 00000000 A0[00000000]                mov al, [a]
+    20 00000005 8A1D[01000000]              mov bl, [b]
+    21 0000000B 8A0D[02000000]              mov cl, [c]
+    22 00000011 8A15[03000000]              mov dl, [d]
+    23                                  
+    24                                      ; Perform the operations
+    25 00000017 28C1                        sub cl, al  ; c - a
+    26 00000019 28D1                        sub cl, dl  ; (c - a) - d
+    27 0000001B 28D9                        sub cl, bl  ; ((c - a) - d) - b
+    28 0000001D 28C8                        sub al, cl  ; (((c - a) - d) - b) - a
+    29                                  
+    30                                      ; Store the result in the 'result' variable
+    31 0000001F A2[04000000]                mov [result], al
+    32                                  
+    33                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    34 00000024 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    35 00000026 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program

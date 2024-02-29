@@ -1,0 +1,27 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8 00000000 05                          a db 5
+     9 00000001 01                          b db 1 
+    10 00000002 0A                          c db 10
+    11 00000003 04                          d db 4
+    12 00000004 00                          result db 0
+    13                                      
+    14                                  section .text   ; Code section ;Am avut de rezolvat: a*(b+c)+34 (ex5)
+    15                                  start:
+    16 00000000 8A1D[01000000]                mov BL, [b]
+    17 00000006 021D[02000000]                add BL, byte [c]; b + c 
+    18 0000000C 88DC                          mov AH, BL; AH = b + c 
+    19 0000000E A0[00000000]                  mov AL, [a]
+    20 00000013 F6EC                          imul AH; a * (b+c)
+    21 00000015 6683C022                      add AX, 34; a*(b+c) + 34
+    22                                      
+    23                                  
+    24                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    25 00000019 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    26 0000001B FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    27                                      

@@ -1,0 +1,19 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8 00000000 00                          result db 0 
+     9                                      
+    10                                  section .text   ; Code section Am avut de rezolvat: 10/4 (ex5)
+    11                                  start:
+    12 00000000 66B80A00                    mov AX, 10
+    13 00000004 66BB0400                    mov BX, 4
+    14 00000008 66BA0000                    mov DX, 0
+    15 0000000C 66F7F3                      div BX
+    16 0000000F A2[00000000]                mov [result], AL
+    17                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    18 00000014 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    19 00000016 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program

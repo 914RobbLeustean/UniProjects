@@ -1,0 +1,362 @@
+5.10/4
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    result db 0 
+    
+section .text   ; Code section Am avut de rezolvat: 10/4 (ex5)
+start:
+    mov AX, 10
+    mov BX, 4
+    mov DX, 0
+    div BX
+    mov [result], AL
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+
+
+20. 13/3
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    result db 0 
+    
+section .text   ; Code section ;Am avut de rezolvat: 13/3 (ex20)
+start:
+    mov AX, 13 
+    mov BX, 3
+    mov DX, 0
+    div BX
+    mov [result], AL
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+
+5.(c-a-d)+(c-b)-a
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 2 
+    b db 3 
+    c db 4
+    d db 5
+    result db 0
+    
+section .text   ; Code section ; Am avut de rezolvat:(c-a-d)+(c-b)-a (ex5)
+start:
+    mov AL, [a]
+    mov BL, [b]
+    mov CL, [c] 
+    mov DL, [d]
+    
+    
+    
+    sub CL, AL ; c-a
+    sub CL, DL; c-a-d
+    
+    mov CH, CL; CH = c - a - d
+    mov CL, [c]; CL = c
+    
+    sub CL, BL; c-b
+    add CH, CL; CH = (c-a-d) + (c-b)
+    sub CH, AL; (c-a-d) + (c-b) - a
+    
+    mov [result], CH;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+
+20.(a+a)-(c+b+d)
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 2 
+    b db 3 
+    c db 10
+    d db 5
+    result db 0
+    
+section .text   ; Code section ;Am avut de rezolvat:(a+a)-(c+b+d) (ex20)
+start:
+    mov AL, [a]
+    mov BL, [b]
+    mov CL, [c] 
+    mov DL, [d]
+    
+    
+    add CL, BL; c + b
+    add CL, DL; c + b + d
+    add AL, AL; a + a
+    sub AL, CL; (a+a)-(c+b+d)
+    
+     mov [result], AL;
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+
+5.(c+b+b)-(c+a+d)
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a dw 2 
+    b dw 3 
+    c dw 10
+    d dw 5
+    result dw 0
+    
+section .text   ; Code section ;Am avut de rezolvat:(c+b+b)-(c+a+d) (ex5)
+start:
+    mov AX, [a]
+    mov BX, [b]
+    mov CX, [c] 
+    mov DX, [d]
+    
+    
+    add BX, BX; b+b
+    add CX, BX; c + b + b
+    mov BX, CX; BX = c + b + b
+    mov CX, [c]; CX = c 
+    add CX, AX; c + a
+    add CX, DX; c + a + d 
+    sub BX, CX; (c+b+b)-(c+a+d)
+    mov [result], BX
+    
+   
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+
+20.b-(b+c)+a
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a dw 2 
+    b dw 3 
+    c dw 10
+    result dw 0
+    
+section .text   ; Code section ;Am avut de rezolvat: b-(b+c)+a (ex20)
+start:
+    mov AX, [a]
+    mov BX, [b]
+    mov CX, [c] 
+    
+    
+    add BX, CX; b + c 
+    mov DX, BX; DX = b + c
+    mov BX, [b]
+    sub BX, DX; b - (b + c)
+    add BX, AX; b-(b+c)+a
+    
+    mov [result], BX
+    
+   
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+5.[d-2*(a-b)+b*c]/2
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 5
+    b db 1 
+    c db 10
+    d dw 4
+    result dw 0
+    
+section .text   ; Code section ;Am avut de rezolvat: [d-2*(a-b)+b*c]/2 (ex5)
+start:
+    mov AL, [a]
+    mov BL, [b]
+    mov CL, [c]
+    mov DX, [d]
+    
+    sub AL, BL; a-b
+    mov AH,2
+    imul AH; (a-b) * 2 <=> AX = AH * AL
+    mov BX, AX; BX = AX
+    mov AL, [b]
+    imul byte [c]; AX = AL * c = b * c 
+    add BX,AX; (a-b)+b*c
+    sub DX, BX; d-2*(a-b)+b*c
+    mov AX, DX
+    mov CX, 2
+    mov DX, 0
+    idiv CX; [d-2*(a-b)+b*c]/2
+    
+    
+    
+    
+    
+   
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+
+20.(50-b-c)*2+a*a+d
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 5
+    b db 1 
+    c db 10
+    d dw 4
+    result dw 0
+    
+section .text   ; Code section ;Am avut de rezolvat: (50-b-c)*2+a*a+d (ex20)
+start:
+    mov DX, [d]
+    
+    mov BL, 50; BL = 50
+    sub BL, [b]; 50 - b
+    sub BL, [c]; 50 - b - c
+    mov AL, BL; AL = 50 - b - c
+    mov AH,2
+    imul AH; AX = 2*(50 - b - c)    
+    mov BX, AX; BX = 2*(50 - b - c)
+    mov AH, [a]
+    mov AL, [a]
+    imul AH; AX = a * a
+    add AX, BX; 2*(50 - b - c) + a*a
+    add AX, DX; (50-b-c)*2+a*a+d 
+    
+    
+     
+
+   
+    
+    
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+
+5.a*(b+c)+34
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 5
+    b db 1 
+    c db 10
+    d db 4
+    result db 0
+    
+section .text   ; Code section ;Am avut de rezolvat: a*(b+c)+34 (ex5)
+start:
+      mov BL, [b]
+      add BL, byte [c]; b + c 
+      mov AH, BL; AH = b + c 
+      mov AL, [a]
+      imul AH; a * (b+c)
+      add AX, 34; a*(b+c) + 34
+    
+
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+  
+  
+20.[(a+b+c)*2]*3/g
+
+bits 32         ; Assembling for the 32-bit architecture
+global start    ; Declare the 'start' label as the entry point of the program
+
+extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+
+section .data   ; Data section
+    a db 5
+    b db 1 
+    c db 10
+    d db 4
+    g dw 12
+    
+    
+section .text   ; Code section ;Am avut de rezolvat: [(a+b+c)*2]*3/g (ex20)
+start:
+      mov AL, [a]
+      add AL, byte [b]; a + b 
+      add AL, byte [c]; a + b + c 
+      mov AH, 2
+      imul AH; AX = AL * AH = (a+b+c)*2
+      mov DX, 3
+      mul DX; DX:AX = AX * DX = [(a+b+c)*2] * 3
+      mov CX, [g]
+      idiv CX; AX = DX:AX / CX = [(a+b+c)*2] * 3 / g 
+      
+      
+
+    ; Call 'exit(0)' to end the program (0 represents a success status)
+    push dword 0  ; Push the parameter (status code) onto the stack
+    call [exit]   ; Call the 'exit' function to exit the program
+    
+
+	
+

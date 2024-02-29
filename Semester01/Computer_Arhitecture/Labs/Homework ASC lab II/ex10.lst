@@ -1,0 +1,40 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                       
+     9 00000000 05                          a db 5
+    10 00000001 03                          b db 3
+    11 00000002 02                          c db 2
+    12 00000003 0A00                        g dw 10
+    13 00000005 0000                        result dw 0  ; Variable to store the result
+    14                                      
+    15                                  section .text   ; Code section
+    16                                  start:
+    17 00000000 A0[00000000]               mov al, [a]
+    18 00000005 8A1D[01000000]              mov bl, [b]
+    19 0000000B 8A0D[02000000]              mov cl, [c]
+    20                                      movzx dx, word [g]  
+    20          ******************       error: mismatch in operand sizes
+    21                                  
+    22                                      
+    23 00000011 00D8                        add al, bl  ; a + b
+    24 00000013 00C8                        add al, cl  ; (a + b) + c
+    25                                      imul al, 2  ; (a + b + c) * 2
+    25          ******************       error: invalid combination of opcode and operands
+    26                                      imul ax, al, 3  ; [(a + b + c) * 2] * 3
+    26          ******************       error: invalid combination of opcode and operands
+    27 00000015 66F7FA                      idiv dx  ; [(a + b + c) * 2 * 3] / g
+    28                                  
+    29                                      
+    30 00000018 66A3[05000000]              mov [result], ax
+    31                                      
+    32                                      
+    33                                  
+    34                                  
+    35                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    36 0000001E 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    37 00000020 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program

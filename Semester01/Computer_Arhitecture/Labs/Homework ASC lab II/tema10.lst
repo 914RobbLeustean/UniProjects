@@ -1,0 +1,50 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                     
+     9 00000000 05                         a db 5
+    10 00000001 0600                       b dw 6
+    11 00000003 02000000                   c dd 2
+    12 00000007 0A00000000000000           d dq 10
+    13                                     
+    14                                     
+    15                                      
+    16                                      
+    17                                  section .text   ; Code section ;Am avut de rezolvat: (c-a-d)+(c-b)-a (ex5) a - byte, b - word, c - double word, d - qword Unsigned
+    18                                  start:
+    19 00000000 66A1[01000000]                      mov AX, [b]
+    20 00000006 66BA0000                            mov DX, 0
+    21 0000000A 668B0D[03000000]                    mov CX, [c]
+    22 00000011 6629C1                              sub CX, AX; c - b 
+    23 00000014 A0[00000000]                        mov AL, [a]
+    24 00000019 B400                                mov AH, 0
+    25 0000001B 66BA0000                            mov DX, 0
+    26 0000001F 6629C1                              sub CX, AX; c - b - a
+    27                                              
+    28 00000022 A0[00000000]                        mov AL, [a]
+    29 00000027 B400                                mov AH, 0
+    30 00000029 66BA0000                            mov DX, 0
+    31 0000002D 662905[03000000]                    sub [c], AX; c - a 
+    32 00000034 A1[03000000]                        mov EAX, [c]
+    33 00000039 BA00000000                          mov EDX, 0
+    34 0000003E 2B05[07000000]                      sub EAX, [d]; c - a - d
+    35                                              
+    36 00000044 66890D[01000000]                    mov [b], CX
+    37 0000004B 8B0D[01000000]                      mov ECX, [b]
+    38 00000051 01C8                                add EAX, ECX
+    39                                              
+    40                                              
+    41                                        
+    42                                        
+    43                                        
+    44                                        
+    45                                        
+    46                                  
+    47                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    48 00000053 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    49 00000055 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    50                                      

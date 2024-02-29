@@ -1,0 +1,51 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                     
+     9 00000000 5757                       a dw 0101011101010111b
+    10 00000002 BEBE                       b dw 1011111010111110b
+    11 00000004 00000000                   c dd 0
+    12                                      
+    13                                      
+    14                                  section .text   ; Code section ;
+    15                                  start:
+    16 00000000 BB00000000                              mov EBX, 0; we clear BX so we can store the result
+    17 00000005 81CBFFFF0000                            or EBX, 00000000000000001111111111111111b; forcing the value of the bits 16-31 to the value 0
+    18                                                  
+    19 0000000B A1[00000000]                            mov EAX, [a]; we isolate the bits 3-8 of A
+    20 00000010 25F8010000                              and EAX, 00000000000000000000000111111000b;
+    21 00000015 B103                                    mov CL, 3
+    22 00000017 D3C8                                    ror EAX, CL; we rotate 3 positions to the right
+    23 00000019 09C3                                    or EBX, EAX; we put the bits into the result
+    24                                                  
+    25 0000001B A1[02000000]                            mov EAX, [b]; we isolate the bits 2-4 of B
+    26 00000020 83E01C                                  and EAX, 00000000000000000000000000011100b
+    27 00000023 B104                                    mov CL, 4
+    28 00000025 D3C0                                    rol EAX, CL; we rotate 4 positions to the left
+    29 00000027 09C3                                    or EBX, EAX; we put the bits into the result
+    30                                                  
+    31 00000029 A1[00000000]                            mov EAX, [a]; we isolate the bits 6-12 of A
+    32 0000002E 25C01F0000                              and EAX, 00000000000000000001111111000000b
+    33 00000033 B103                                    mov CL, 3
+    34 00000035 D3C0                                    rol EAX, CL; we rotate 3 positions to the left
+    35 00000037 09C3                                    or EBX, EAX; we put the bits into the result
+    36                                                  
+    37                                                  
+    38                                             
+    39                                  
+    40                                                  
+    41                                                  
+    42                                                  
+    43                                  
+    44                                                   
+    45                                          
+    46                                        
+    47                                  
+    48                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    49 00000039 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    50 0000003B FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    51                                      

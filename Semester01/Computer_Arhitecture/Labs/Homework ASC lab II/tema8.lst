@@ -1,0 +1,40 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8 00000000 05                          a db 5
+     9 00000001 01                          b db 1 
+    10 00000002 0A                          c db 10
+    11 00000003 0400                        d dw 4
+    12 00000005 0000                        result dw 0
+    13                                      
+    14                                  section .text   ; Code section ;Am avut de rezolvat: (50-b-c)*2+a*a+d (ex20)
+    15                                  start:
+    16 00000000 668B15[03000000]            mov DX, [d]
+    17                                      
+    18 00000007 B332                        mov BL, 50; BL = 50
+    19 00000009 2A1D[01000000]              sub BL, [b]; 50 - b
+    20 0000000F 2A1D[02000000]              sub BL, [c]; 50 - b - c
+    21 00000015 88D8                        mov AL, BL; AL = 50 - b - c
+    22 00000017 B402                        mov AH,2
+    23 00000019 F6EC                        imul AH; AX = 2*(50 - b - c)    
+    24 0000001B 6689C3                      mov BX, AX; BX = 2*(50 - b - c)
+    25 0000001E 8A25[00000000]              mov AH, [a]
+    26 00000024 A0[00000000]                mov AL, [a]
+    27 00000029 F6EC                        imul AH; AX = a * a
+    28 0000002B 6601D8                      add AX, BX; 2*(50 - b - c) + a*a
+    29 0000002E 6601D0                      add AX, DX; (50-b-c)*2+a*a+d 
+    30                                      
+    31                                      
+    32                                       
+    33                                  
+    34                                     
+    35                                      
+    36                                      
+    37                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    38 00000031 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    39 00000033 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    40                                      

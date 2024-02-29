@@ -1,0 +1,31 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                       
+     9 00000000 0500                        a dw 5
+    10 00000002 0300                        b dw 3
+    11 00000004 0200                        c dw 2
+    12 00000006 0000                        result dw 0  ; Variable to store the result
+    13                                      
+    14                                  section .text   ; Code section
+    15                                  start:
+    16                                  
+    17 00000000 66A1[00000000]              mov ax, [a]
+    18 00000006 668B1D[02000000]            mov bx, [b]
+    19 0000000D 668B0D[04000000]            mov cx, [c]
+    20                                  
+    21                                      
+    22 00000014 6601CB                      add bx, cx  ; b + c
+    23 00000017 6629C3                      sub bx, ax  ; (b + c) - a
+    24                                  
+    25                                      
+    26 0000001A 66891D[06000000]            mov [result], bx
+    27                                  
+    28                                  
+    29                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    30 00000021 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    31 00000023 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program

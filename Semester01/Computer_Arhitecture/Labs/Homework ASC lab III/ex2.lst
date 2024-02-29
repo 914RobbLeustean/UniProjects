@@ -1,0 +1,57 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8                                     
+     9 00000000 05                         a db 5
+    10 00000001 0600                       b dw 6
+    11 00000003 02000000                   c dd 2
+    12 00000007 0A00000000000000           d dq 10
+    13                                     
+    14                                     
+    15                                      
+    16                                      
+    17                                  section .text   ; Code section ;Am avut de rezolvat: (a+c)-b+a + (d-c) (ex20) a - byte, b - word, c - double word, d - qword Unsigned
+    18                                  start:
+    19                                              
+    20 00000000 A1[03000000]                        mov EAX, [c]
+    21 00000005 BA00000000                          mov EDX, 0
+    22 0000000A 2905[07000000]                      sub [d], EAX; d = d - c 
+    23                                              
+    24 00000010 A0[00000000]                        mov AL, [a]
+    25 00000015 B400                                mov AH, 0; AX = a
+    26                                              
+    27 00000017 66BA0000                            mov DX, 0; DX:AX = a 
+    28 0000001B 660305[03000000]                    add AX, [c]; AX = a + c 
+    29 00000022 66A3[03000000]                      mov [c], AX; c = AX = a + c 
+    30                                              
+    31 00000028 66A1[01000000]                      mov AX, [b]
+    32 0000002E 66BA0000                            mov DX, 0
+    33 00000032 662905[03000000]                    sub [c], AX; c = (a+c) - b 
+    34                                              
+    35 00000039 A0[00000000]                        mov AL, [a]
+    36 0000003E B400                                mov AH, 0; AX = a 
+    37                                              
+    38 00000040 66BA0000                            mov DX, 0; DX:AX = a 
+    39 00000044 660105[03000000]                    add [c], AX; c =  (a+c) - b + a
+    40                                              
+    41 0000004B A1[03000000]                        mov EAX, [c]
+    42 00000050 BA00000000                          mov EDX, 0
+    43 00000055 0305[07000000]                      add EAX, [d]; (a+c)-b+a + (d-c)
+    44                                              
+    45                                              
+    46                                              
+    47                                              
+    48                                        
+    49                                        
+    50                                        
+    51                                        
+    52                                        
+    53                                  
+    54                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    55 0000005B 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    56 0000005D FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    57                                      

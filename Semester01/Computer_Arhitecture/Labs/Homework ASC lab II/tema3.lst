@@ -1,0 +1,45 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8 00000000 02                          a db 2 
+     9 00000001 03                          b db 3 
+    10 00000002 04                          c db 4
+    11 00000003 05                          d db 5
+    12 00000004 00                          result db 0
+    13                                      
+    14                                  section .text   ; Code section ; Am avut de rezolvat:(c-a-d)+(c-b)-a (ex5)
+    15                                  start:
+    16 00000000 A0[00000000]                mov AL, [a]
+    17 00000005 8A1D[01000000]              mov BL, [b]
+    18 0000000B 8A0D[02000000]              mov CL, [c] 
+    19 00000011 8A15[03000000]              mov DL, [d]
+    20                                      
+    21                                      
+    22                                      
+    23 00000017 28C1                        sub CL, AL ; c-a
+    24 00000019 28D1                        sub CL, DL; c-a-d
+    25                                      
+    26 0000001B 88CD                        mov CH, CL; CH = c - a - d
+    27 0000001D 8A0D[02000000]              mov CL, [c]; CL = c
+    28                                      
+    29 00000023 28D9                        sub CL, BL; c-b
+    30 00000025 00CD                        add CH, CL; CH = (c-a-d) + (c-b)
+    31 00000027 28C5                        sub CH, AL; (c-a-d) + (c-b) - a
+    32                                      
+    33 00000029 882D[04000000]              mov [result], CH;
+    34                                      
+    35                                      
+    36                                      
+    37                                      
+    38                                      
+    39                                      
+    40                                      
+    41                                      
+    42                                      
+    43                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    44 0000002F 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    45 00000031 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program

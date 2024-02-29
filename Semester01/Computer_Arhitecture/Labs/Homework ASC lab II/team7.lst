@@ -1,0 +1,44 @@
+     1                                  bits 32         ; Assembling for the 32-bit architecture
+     2                                  global start    ; Declare the 'start' label as the entry point of the program
+     3                                  
+     4                                  extern exit     ; Inform the assembler that the 'exit' symbol is external (defined in an external library)
+     5                                  import exit msvcrt.dll  ; Specify that 'exit' is defined in the msvcrt.dll library
+     6                                  
+     7                                  section .data   ; Data section
+     8 00000000 05                          a db 5
+     9 00000001 01                          b db 1 
+    10 00000002 0A                          c db 10
+    11 00000003 0400                        d dw 4
+    12 00000005 0000                        result dw 0
+    13                                      
+    14                                  section .text   ; Code section ;Am avut de rezolvat: [d-2*(a-b)+b*c]/2 (ex5)
+    15                                  start:
+    16 00000000 A0[00000000]                mov AL, [a]
+    17 00000005 8A1D[01000000]              mov BL, [b]
+    18 0000000B 8A0D[02000000]              mov CL, [c]
+    19 00000011 668B15[03000000]            mov DX, [d]
+    20                                      
+    21 00000018 28D8                        sub AL, BL; a-b
+    22 0000001A B402                        mov AH,2
+    23 0000001C F6EC                        imul AH; (a-b) * 2 <=> AX = AH * AL
+    24 0000001E 6689C3                      mov BX, AX; BX = AX
+    25 00000021 A0[01000000]                mov AL, [b]
+    26 00000026 F62D[02000000]              imul byte [c]; AX = AL * c = b * c 
+    27 0000002C 6601C3                      add BX,AX; (a-b)+b*c
+    28 0000002F 6629DA                      sub DX, BX; d-2*(a-b)+b*c
+    29 00000032 6689D0                      mov AX, DX
+    30 00000035 66B90200                    mov CX, 2
+    31 00000039 66BA0000                    mov DX, 0
+    32 0000003D 66F7F9                      idiv CX; [d-2*(a-b)+b*c]/2
+    33                                      
+    34                                      
+    35                                      
+    36                                      
+    37                                      
+    38                                     
+    39                                      
+    40                                      
+    41                                      ; Call 'exit(0)' to end the program (0 represents a success status)
+    42 00000040 6A00                        push dword 0  ; Push the parameter (status code) onto the stack
+    43 00000042 FF15[00000000]              call [exit]   ; Call the 'exit' function to exit the program
+    44                                      

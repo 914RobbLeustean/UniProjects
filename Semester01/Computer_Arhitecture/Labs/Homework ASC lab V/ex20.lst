@@ -1,0 +1,67 @@
+     1                                  ;Two byte strings A and B are given. Obtain the string R that contains only the even negative elements of the two strings.
+     2                                  ;A: 2, 1, 3, -3, -4, 2, -6
+     3                                  ;B: 4, 5, -5, 7, -6, -2, 1
+     4                                  ;R: -4, -6, -6, -2
+     5                                  bits 32 
+     6                                  global start        
+     7                                  extern exit; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                  ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  ; our data is declared here (the variables needed by our program)
+    11                                  
+    12                                  segment data use32 class=data
+    13 00000000 020103FDFC02FA          	A db 2, 1, 3, -3, -4, 2, -6 ; declare the string of bytes
+    14                                      alen equ $-A; length of A
+    15 00000007 0405FB07FAFE01              B db 4, 5, -5, 7, -6, -2, 1
+    16                                      blen equ $-B;
+    17                                      rlen equ alen + blen
+    18 0000000E 00<rept>                	r times alen db 0 ; reserve l bytes for the destination string and initialize it
+    19                                      
+    20                                  segment code use32 class=code
+    21                                  start:
+    22 00000000 B907000000              	mov ecx, alen ; we put the length l in ECX in order to make the loop
+    23 00000005 BE00000000              	mov esi, 0
+    24 0000000A BF[0E000000]                mov edi, r
+    25                                      
+    26 0000000F E314                        jecxz Sfarsit
+    27                                      Repeta:
+    28 00000011 8A86[00000000]                  mov al, [A+esi]
+    29 00000017 A801                            test al, 1; check if it's odd 
+    30 00000019 7507                            jnz next_A; if it's odd we skip
+    31                                             
+    32 0000001B 3C00                            cmp al, 0
+    33 0000001D 7D03                            jge next_A;
+    34                                             
+    35 0000001F 8807                            mov [edi], al
+    36 00000021 47                      		inc edi
+    37                                             
+    38                                      next_A:
+    39 00000022 46                              inc esi; move to the next element
+    40 00000023 E2EC                        loop Repeta; 
+    41                                      Sfarsit:
+    42                                      
+    43 00000025 B907000000                  mov ecx, blen ; we put the length l in ECX in order to make the loop
+    44 0000002A BE00000000              	mov esi, 0
+    45                                      
+    46 0000002F E314                        jecxz Sfarsit2
+    47                                      Repeta2:
+    48 00000031 8A86[07000000]                  mov al, [B+esi]
+    49 00000037 A801                            test al, 1; check if it's odd 
+    50 00000039 7507                            jnz next_B; if it's odd we skip
+    51                                             
+    52 0000003B 3C00                            cmp al, 0
+    53 0000003D 7D03                            jge next_B;
+    54                                             
+    55 0000003F 8807                            mov [edi], al
+    56 00000041 47                      		inc edi
+    57                                             
+    58                                      next_B:
+    59 00000042 46                              inc esi; move to the next element
+    60 00000043 E2EC                        loop Repeta2; 
+    61                                      Sfarsit2:
+    62                                  
+    63                                      
+    64                                  	
+    65                                  	; exit(0)
+    66 00000045 6A00                    	push dword 0 ; push the parameter for exit onto the stack
+    67 00000047 FF15[00000000]          	call [exit] ; call exit to terminate the program

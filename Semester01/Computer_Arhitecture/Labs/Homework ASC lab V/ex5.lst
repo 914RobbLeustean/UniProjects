@@ -1,0 +1,40 @@
+     1                                  ;A character string S is given. Obtain the string D containing all small letters from the string S.
+     2                                  bits 32 
+     3                                  global start        
+     4                                  extern exit; tell nasm that exit exists even if we won't be defining it
+     5                                  import exit msvcrt.dll ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     6                                  ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+     7                                  ; our data is declared here (the variables needed by our program)
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 61416242322578          	s db 'a', 'A', 'b', 'B', '2', '%', 'x' ; declare the string of bytes
+    11                                  	l equ $-s ; compute the length of the string in l
+    12 00000007 00<rept>                	d times l db 0 ; reserve l bytes for the destination string and initialize it
+    13                                      
+    14                                  segment code use32 class=code
+    15                                  start:
+    16 00000000 B907000000              	mov ecx, l ; we put the length l in ECX in order to make the loop
+    17 00000005 BE00000000              	mov esi, 0
+    18 0000000A BF[07000000]                mov edi, d
+    19                                      
+    20 0000000F E314                    	jecxz Sfarsit      
+    21                                  	Repeta: ;Syntax for a loop function, <label>;, then below it we add operations / code to execute
+    22 00000011 8A86[00000000]          		mov al, [s+esi]; loading a character from string S into AL
+    23                                  		
+    24 00000017 3C61                            cmp al, 'a'; character small than a so it's not lowercase
+    25 00000019 7C07                            jl  not_lower
+    26 0000001B 3C7A                            cmp al, 'z'; character higher than z so it's not lowercase
+    27 0000001D 7F03                            jg not_lower
+    28                                          
+    29 0000001F 8807                    		mov [edi], al; store lowercase character in string D
+    30 00000021 47                      		inc edi; move to the next position in the string D
+    31                                      
+    32                                      not_lower:
+    33 00000022 46                              inc esi  ; move to the next character in string S
+    34                                          ;jmp Repeta ; continue checking characters
+    35                                          
+    36 00000023 E2EC                        loop Repeta; loop <label>; we are telling the program to go back and execute as long as ECX is not zero !!
+    37                                  	Sfarsit: ; ECX is zero so that means we jump here and don't execute any more lines of code
+    38                                  	; exit(0)
+    39 00000025 6A00                    	push dword 0 ; push the parameter for exit onto the stack
+    40 00000027 FF15[00000000]          	call [exit] ; call exit to terminate the program
