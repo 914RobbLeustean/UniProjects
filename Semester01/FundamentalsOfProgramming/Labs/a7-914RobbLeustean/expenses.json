@@ -1,0 +1,22 @@
+[
+    {
+        "day": 5,
+        "amount": 985,
+        "type": "rent"
+    },
+    {
+        "day": 20,
+        "amount": 974,
+        "type": "food"
+    },
+    {
+        "day": 4,
+        "amount": 957,
+        "type": "food"
+    },
+    {
+        "day": 29,
+        "amount": 965,
+        "type": "subscriptions"
+    }
+]
