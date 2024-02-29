@@ -1,0 +1,74 @@
+     1                                  bits 32
+     2                                  global start
+     3                                  
+     4                                  extern exit, scanf, printf
+     5                                  import exit msvcrt.dll
+     6                                  import printf msvcrt.dll
+     7                                  import scanf msvcrt.dll
+     8                                  
+     9                                  segment data use32 class=data
+    10 00000000 00000000                    a dd 0
+    11 00000004 00000000                    b dd 0
+    12 00000008 2563203D2000                format_printf db "%c = ", 0
+    13 0000000E 257800                      format_scanf db "%x", 0
+    14 00000011 2573203D20257800            format_result db "%s = %x", 0
+    15                                  
+    16                                  
+    17                                  segment code use32 class=code
+    18                                  start:
+    19                                      ; print a msg
+    20 00000000 6A61                        push dword 'a'
+    21 00000002 68[08000000]                push dword format_printf
+    22 00000007 FF15[00000000]              call [printf]
+    23 0000000D 83C408                      add esp, 8
+    24                                  
+    25                                      ; read a
+    26 00000010 68[00000000]                push dword a
+    27 00000015 68[0E000000]                push dword format_scanf
+    28 0000001A FF15[00000000]              call [scanf]
+    29 00000020 83C408                      add esp, 8
+    30                                  
+    31                                      ; print b msg
+    32 00000023 6A62                        push dword 'b'
+    33 00000025 68[08000000]                push dword format_printf
+    34 0000002A FF15[00000000]              call [printf]
+    35 00000030 83C408                      add esp, 8
+    36                                  
+    37                                      ; read b
+    38 00000033 68[04000000]                push dword b            
+    39 00000038 68[0E000000]                push dword format_scanf
+    40 0000003D FF15[00000000]              call [scanf]
+    41 00000043 83C408                      add esp, 8
+    42                                  
+    43 00000046 A1[00000000]                mov eax, dword [a]
+    44 0000004B 8B1D[04000000]              mov ebx, dword [b]
+    45                                  
+    46 00000051 25FFFF0000                  and eax, 0x0000FFFF
+    47 00000056 81E3FFFF0000                and ebx, 0x0000FFFF
+    48                                  
+    49 0000005C 01D8                        add eax, ebx
+    50                                  
+    51 0000005E 6873756D61                  push dword 'suma'
+    52 00000063 50                          push eax
+    53 00000064 68[11000000]                push dword format_result
+    54 00000069 FF15[00000000]              call [printf]
+    55 0000006F 83C40C                      add esp, 12
+    56                                  
+    57 00000072 A1[00000000]                mov eax, dword [a]
+    58 00000077 8B1D[04000000]              mov ebx, dword [b]
+    59                                  
+    60 0000007D C1E810                      shr eax, 16
+    61 00000080 C1EB10                      shr ebx, 16
+    62                                  
+    63 00000083 29C3                        sub ebx, eax
+    64                                  
+    65 00000085 6864696665                  push dword 'diferenta'
+    65          ******************       warning: dword data exceeds bounds [-w+number-overflow]
+    66 0000008A 53                          push ebx
+    67 0000008B 68[11000000]                push dword format_result
+    68 00000090 FF15[00000000]              call [printf]   
+    69 00000096 83C40C                      add esp, 12
+    70                                  
+    71                                  
+    72 00000099 6A00                    	push dword 0 
+    73 0000009B FF15[00000000]          	call [exit] 

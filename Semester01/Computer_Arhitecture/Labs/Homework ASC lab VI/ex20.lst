@@ -1,0 +1,58 @@
+     1                                  bits 32 ; assembling for the 32 bits architecture
+     2                                  
+     3                                  ; declare the EntryPoint (a label defining the very first instruction of the program)
+     4                                  global start        
+     5                                  
+     6                                  ; declare external functions needed by our program
+     7                                  extern exit               ; tell nasm that exit exists even if we won't be defining it
+     8                                  import exit msvcrt.dll    ; exit is a function that ends the calling process. It is defined in msvcrt.dll
+     9                                                            ; msvcrt.dll contains exit, printf and all the other important C-runtime specific functions
+    10                                  
+    11                                  
+    12                                  
+    13                                  
+    14                                  
+    15                                  segment data use32 class=data
+    16 00000000 072137132E                  s1 db 7, 33, 55, 19, 46   ; s1 byte string
+    17 00000005 2115070D1B1337012E          s2 db 33, 21, 7, 13, 27, 19, 55, 1, 46   ; s2 byte string
+    18                                      s1_len equ $ - s1          ; length of s1
+    19                                      s2_len equ $ - s2          ; length of s2
+    20 0000000E 09                          result db s2_len    ; result string initialized 
+    21                                  
+    22                                  segment code use32 class=code
+    23                                      start:
+    24 00000000 B909000000                  mov ecx, s2_len            ; loop counter
+    25 00000005 31F6                        xor esi, esi               ; index for s2
+    26 00000007 31DB                        xor ebx, ebx               ; clear ebx (used to store position)
+    27                                  
+    28                                  search_loop:
+    29 00000009 39CE                        cmp esi, ecx               ; check if end of s2 is reached
+    30 0000000B 7D2B                        jge end_search
+    31                                  
+    32 0000000D 8A86[05000000]              mov al, [s2 + esi]         ; load byte from s2 into al
+    33 00000013 31FF                        xor edi, edi               ; index for s1
+    34                                  
+    35                                      search_again:
+    36 00000015 83FF0E                      cmp edi, s1_len            ; check if end of s1 is reached
+    37 00000018 7D14                        jge not_found              ; if not found, set 0 in result
+    38                                  
+    39 0000001A 3A87[00000000]              cmp al, [s1 + edi]         ; compare bytes in s1 and s2
+    40 00000020 7403                        je found                   ; if equal, set position in result
+    41                                  
+    42 00000022 47                          inc edi                    ; increment s1 index
+    43 00000023 EBF0                        jmp search_again           ; repeat the search
+    44                                  
+    45                                  found:
+    46 00000025 889E[0E000000]              mov [result + esi], bl     ; set position in result
+    47 0000002B 46                          inc esi                    ; increment s2 index
+    48 0000002C EBDB                        jmp search_loop            ; repeat for the next byte in s2
+    49                                  
+    50                                  not_found:
+    51 0000002E C686[0E000000]00            mov [result + esi], byte 0 ; set 0 in result for not found
+    52 00000035 46                          inc esi                    ; increment s2 index
+    53 00000036 EBD1                        jmp search_loop            ; repeat for the next byte in s2
+    54                                  
+    55                                  end_search:
+    56                                      ; Your code to handle the result goes here
+    57                                      ; The result is stored in the "result" variable
+    58                                      ; You can print it, store it, or perform any other operations needed
