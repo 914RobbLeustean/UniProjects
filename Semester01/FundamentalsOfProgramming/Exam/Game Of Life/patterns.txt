@@ -1,0 +1,14 @@
+block:
+XX
+XX
+
+blinker:
+X
+X
+X
+
+beacon:
+XX
+XX
+  XX
+  XX
