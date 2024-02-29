@@ -1,11 +1,12 @@
-Computer Science at Babeș-Bolyai University
-📚 First Semester
-⟦⟧ Algebra
-👾 Architecture of Computer Systems
-Seminars
-Laboratory Work
-🐍 Programming Basics
-Seminars
-Laboratory Sessions
-📈 Analysis in Mathematics
-∧ Logic in Computing
+### Babeș-Bolyai University - Computer Science
+
+## [📚 First Semester]()
+- [    Algebra]()
+- [👾 Computer Systems Architecture]()
+  - [Seminars]()
+  - [Labs]()
+- [🚀 Fundamentals of Programming]()
+  - [Seminars]()
+  - [Labs]()
+- [📈 Mathematical Analysis]()
+- [∧ Computational Logic]()
