@@ -1,6 +1,6 @@
 ### Babeș-Bolyai University - Computer Science
 
-## [📚 First Semester](https://github.com/914RobbLeustean/ubb/tree/main/Semester01)
+## [📚 First Semester](https://github.com/914RobbLeustean/UBBProjects/tree/main/Semester01)
 - [    Algebra](https://github.com/914RobbLeustean/UBBProjects/tree/main/Semester01/LinearAlgebra)
 - [👾 Computer Systems Architecture](https://github.com/914RobbLeustean/UBBProjects/tree/main/Semester01/Computer_Arhitecture)
   - [Labs](https://github.com/914RobbLeustean/UBBProjects/tree/main/Semester01/Computer_Arhitecture/Labs)
