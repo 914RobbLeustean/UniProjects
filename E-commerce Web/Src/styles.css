@@ -1,0 +1,114 @@
+/* Custom Styles */
+
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dddddd;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #ff5722;
+}
+
+.nav-link {
+  color: #555555;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #ff5722;
+}
+
+.banner {
+  background-image: url("https://c4.wallpaperflare.com/wallpaper/559/612/973/cook-dining-cooking-steam-wallpaper-preview.jpg");
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  color: #ffffff;
+}
+
+.banner h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.banner .btn-primary {
+  background-color: #ff5722;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+}
+
+.products .card {
+  margin-bottom: 30px;
+}
+
+.products .card-img-top {
+  height: 200px; /* Adjust as needed */
+  object-fit: cover;
+}
+
+.products .card-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.products .card-text {
+  margin-bottom: 0.5rem;
+}
+
+.products .btn-primary {
+  background-color: #ff5722;
+  border: none;
+}
+
+.modal-content {
+  /* Ensures background and text colors have high contrast for readability */
+  background-color: #fff;
+  color: #333;
+}
+
+.modal-header,
+.modal-body,
+.modal-footer {
+  /* Optional: Adjust padding or font sizes as needed for better layout */
+}
+
+.form-control {
+  /* Ensures form inputs have clear, visible borders */
+  border: 1px solid #ced4da;
+}
+
+/* Adjusts label and input text sizes for better readability */
+label {
+  font-size: 1rem;
+}
+
+.form-control {
+  font-size: 0.9rem;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .banner h1 {
+    font-size: 2rem;
+  }
+
+  .banner .btn-primary {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}
